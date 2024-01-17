@@ -44,7 +44,7 @@ export const counterSlice = createSlice({
 });
 
 /* Types */
-export interface CounterSliceState {
+export type CounterSliceState = {
   value: number;
   status: "idle" | "loading" | "failed";
 }

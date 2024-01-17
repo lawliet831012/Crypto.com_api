@@ -1,7 +1,7 @@
 "use client";
 
 /* Core */
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 
 /* Instruments */
 import {
@@ -14,7 +14,7 @@ import {
 } from "@/lib/redux";
 import styles from "./counter.module.css";
 
-export const Counter = () => {
+export const Counter = (): ReactElement => {
   const dispatch = useDispatch();
   const count = useSelector(selectCount);
   const [incrementAmount, setIncrementAmount] = useState(2);
@@ -43,7 +43,7 @@ export const Counter = () => {
           className={styles.textbox}
           aria-label="Set increment amount"
           value={incrementAmount}
-          onChange={(e) => setIncrementAmount(Number(e.target.value ?? 0))}
+          onChange={(e) => { setIncrementAmount(Number(e.target.value ?? 0)); }}
         />
         <button
           className={styles.button}
@@ -55,13 +55,13 @@ export const Counter = () => {
         </button>
         <button
           className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementAmount))}
+          onClick={async () => await dispatch(incrementAsync(incrementAmount))}
         >
           Add Async
         </button>
         <button
           className={styles.button}
-          onClick={() => dispatch(incrementIfOddAsync(incrementAmount))}
+          onClick={() => { dispatch(incrementIfOddAsync(incrementAmount)); }}
         >
           Add If Odd
         </button>

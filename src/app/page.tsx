@@ -1,7 +1,8 @@
 /* Components */
-import { Counter } from "./components/Counter/Counter";
+import { type JSX } from "react";
+import { Counter } from "@/components/Counter/Counter";
 
-export default function IndexPage() {
+export default function IndexPage(): JSX.Element {
   return <Counter />;
 }
 
