@@ -1,6 +1,7 @@
 /* Core */
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { messageParser } from "./thunks";
 
 const initialState: websocketState = {
   connection: {},
@@ -27,6 +28,8 @@ export const websocketSlice = createSlice({
   reducers: {
     connect: (state, action: PayloadAction<websocketOption>) => {
       const { url, id } = action.payload;
+      console.log(url, id);
+      
       const wss = initialWebSocket(url);
       state.connection = {...state.connection, [id]: wss};
     },
@@ -46,8 +49,9 @@ function onOpen(event: any): void {
 function onClose(event: any): void {
 
 }
-function onMessage(event: any): void {
-
+function onMessage(event: MessageEvent<any>): void {
+  console.log(JSON.parse(event.data));
+  messageParser(event);
 }
 function onError(event: any): void {
 
