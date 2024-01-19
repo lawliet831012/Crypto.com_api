@@ -1,1 +1,1 @@
-export * from "./cryptoComSlice";
+export * from './cryptoComSlice';

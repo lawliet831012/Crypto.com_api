@@ -1,7 +1,7 @@
 /* Core */
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import { messageParser } from "./thunks";
+import { messageParser } from './thunks';
 
 const initialState: websocketState = {
   connection: {},
@@ -23,46 +23,38 @@ function initialWebSocket(url: string, protocols = [], options = {}): any {
 }
 
 export const websocketSlice = createSlice({
-  name: "websocket",
+  name: 'websocket',
   initialState,
   reducers: {
     connect: (state, action: PayloadAction<websocketOption>) => {
       const { url, id } = action.payload;
       console.log(url, id);
-      
+
       const wss = initialWebSocket(url);
-      state.connection = {...state.connection, [id]: wss};
+      state.connection = { ...state.connection, [id]: wss };
     },
     disconnect: (state, action: PayloadAction<string>) => {
       state.connection[action.payload].close();
       state.connection[action.payload] = undefined;
     },
   },
-  extraReducers: (builder) => {
-    
-  },
+  extraReducers: builder => {},
 });
 
-function onOpen(event: any): void {
-  
-}
-function onClose(event: any): void {
-
-}
+function onOpen(event: any): void {}
+function onClose(event: any): void {}
 function onMessage(event: MessageEvent<any>): void {
   console.log(JSON.parse(event.data));
   messageParser(event);
 }
-function onError(event: any): void {
-
-}
+function onError(event: any): void {}
 
 /* Types */
 export type websocketState = {
-  connection: Record<string, any>,
-}
+  connection: Record<string, any>;
+};
 
 export type websocketOption = {
-  id: string,
-  url: string,
-}
+  id: string;
+  url: string;
+};

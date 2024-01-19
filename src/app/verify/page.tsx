@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+import { type JSX } from 'react';
 
 export default function VerifyPage(): JSX.Element {
   return (
