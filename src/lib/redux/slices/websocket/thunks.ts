@@ -1,7 +1,7 @@
 /* Instruments */
 // import { createAppAsyncThunk } from "@/lib/redux/createAppAsyncThunk";
-
-import type { ReduxThunkAction } from '@/lib/redux';
+import { sendMessage  } from '@/lib/redux';
+import type { ReduxThunkAction, messageType } from '@/lib/redux';
 
 // export const messageParser = createAppAsyncThunk(
 //   "websocket/message",
@@ -13,6 +13,13 @@ import type { ReduxThunkAction } from '@/lib/redux';
 //   },
 // );
 
-export const messageParser =
-  (messge: any): ReduxThunkAction =>
-  (dispatch, getState) => {};
+export const messageParser:Record<string, (name: string, message: messageType) => ReduxThunkAction> = {
+  "public/heartbeat": (name, messge) =>
+  (dispatch, getState) => {
+    const { id } = messge;
+    sendMessage(name, { id, type: 'public/respond-heartbeat' });
+  },
+};
+
+
+  

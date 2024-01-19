@@ -1,33 +1,25 @@
 /* Instruments */
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk';
-import { fetchIdentityCount } from './fetchIdentityCount';
-import { selectCount } from './selectors';
-import { counterSlice } from './coreSlice';
-import type { ReduxThunkAction } from '@/lib/redux';
+import { websocketSlice } from '@/lib/redux';
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched. Thunks are
-// typically used to make async requests.
-export const incrementAsync = createAppAsyncThunk(
-  'counter/fetchIdentityCount',
-  async (amount: number) => {
-    const response = await fetchIdentityCount(amount);
 
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+export const initailizeAsync = createAppAsyncThunk(
+  'core/initailizeClient',
+  async (_, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    try {
+      dispatch(
+        websocketSlice.actions.connect({
+          name: 'CRYPTO_COM_MARKET_WSS',
+          url: `${process.env.NEXT_PUBLIC_STREAM_URL}/v1/market`,
+        })
+      );
+      
+      return 'fulfilled';
+    } catch (error) {
+      console.error(error);
+      return 'failed';
+    }
   }
 );
 
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-export const incrementIfOddAsync =
-  (amount: number): ReduxThunkAction =>
-  (dispatch, getState) => {
-    const currentValue = selectCount(getState());
-
-    if (currentValue % 2 === 1) {
-      dispatch(counterSlice.actions.incrementByAmount(amount));
-    }
-  };

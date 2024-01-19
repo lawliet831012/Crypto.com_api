@@ -1,2 +1,2 @@
 export * from './coreSlice';
-export * from './thunks';
+export * as coreThunks from './thunks';

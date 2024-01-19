@@ -38,6 +38,8 @@ export const counterSlice = createSlice({
       })
       .addCase(incrementAsync.fulfilled, (state, action) => {
         state.status = 'idle';
+        console.log(action);
+        
         state.value += action.payload;
       });
   },

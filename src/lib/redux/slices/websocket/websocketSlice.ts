@@ -2,6 +2,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { messageParser } from './thunks';
+import { reduxStore } from '@/lib/redux';
+
+const wssMap: Record<string, any> = {};
 
 const initialState: websocketState = {
   connection: {},
@@ -14,11 +17,6 @@ function initialWebSocket(url: string, protocols = [], options = {}): any {
     connectionTimeout: 3000,
     minUptime: 3000,
   });
-
-  wss.onopen = onOpen;
-  wss.onclose = onClose;
-  wss.onmessage = onMessage;
-  wss.onerror = onError;
   return wss;
 }
 
@@ -27,34 +25,68 @@ export const websocketSlice = createSlice({
   initialState,
   reducers: {
     connect: (state, action: PayloadAction<websocketOption>) => {
-      const { url, id } = action.payload;
-      console.log(url, id);
+      const { url, name } = action.payload;
 
+      console.log(action.payload);
+      
       const wss = initialWebSocket(url);
-      state.connection = { ...state.connection, [id]: wss };
+      const { onOpen, onClose, onMessage, onError } = createEventHandler(name);
+
+      wss.onopen = onOpen;
+      wss.onclose = onClose;
+      wss.onmessage = onMessage;
+      wss.onerror = onError;
+
+      wssMap[name] = wss;
+      state.connection = {...state.connection, [name]: { url, name, status: 'connecting'}};
     },
     disconnect: (state, action: PayloadAction<string>) => {
-      state.connection[action.payload].close();
-      state.connection[action.payload] = undefined;
+      wssMap[action.payload].close();
+      delete wssMap[action.payload];
+      const { [action.payload]: _, ...rest } = state.connection;
+      state.connection = rest;
     },
   },
   extraReducers: builder => {},
 });
 
-function onOpen(event: any): void {}
-function onClose(event: any): void {}
-function onMessage(event: MessageEvent<any>): void {
-  console.log(JSON.parse(event.data));
-  messageParser(event);
+export function sendMessage(name:string, payload: Record<string, any>): void {
+  wssMap[name].send(JSON.stringify(payload));
 }
-function onError(event: any): void {}
+const createEventHandler = (name: string): Record<string, (enent: MessageEvent<string>) => void> => {
+  return {
+    onOpen: (event) => {
+      console.info(name, ': Wss Open');
+    },
+    onClose: (event) => {
+      console.info(name, ': Wss Close');
+    },
+    onMessage: (event) => {
+      const { method }: messageType = JSON.parse(event.data);
+      if(method in messageParser) {
+        reduxStore.dispatch(messageParser[method](name, JSON.parse(event.data) as messageType));
+      }
+    },
+    onError: (event) => {
+      console.info(name, ': Wss Error');
+      console.error(event);
+    },
+  };
+}
 
 /* Types */
 export type websocketState = {
-  connection: Record<string, any>;
+  connection: Record<string, Record<string, string>>;
 };
 
 export type websocketOption = {
-  id: string;
+  name: string;
   url: string;
 };
+
+export type messageType = {
+  id: number;
+  code?: number;
+  method: string;
+  result?: Record<string, any>;
+}
