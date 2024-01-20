@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\""
+    "prettier": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|css)\"",
+    "format": "yarn lint --fix && yarn prettier"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",

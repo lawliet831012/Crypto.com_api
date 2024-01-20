@@ -43,7 +43,7 @@ export const Counter = (): ReactElement => {
           className={styles.textbox}
           aria-label="Set increment amount"
           value={incrementAmount}
-          onChange={e => {
+          onChange={(e) => {
             setIncrementAmount(Number(e.target.value ?? 0));
           }}
         />

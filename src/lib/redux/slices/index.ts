@@ -1,3 +1,4 @@
 export * from './core';
-export * from './counterSlice';
+export * from './quote';
 export * from './websocket';
+export * from './counterSlice';

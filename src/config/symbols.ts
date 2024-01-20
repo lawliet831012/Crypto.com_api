@@ -1,8 +1,11 @@
 export const symbolList = [
-  'BTCUSDT-PERP',
-  'ETHUSDT-PERP',
-  'SOL_USDT',
-  'XRP_USDT',
-  'ADA_USDT',
-  'MATIC_USDT',
-];
+  'BTCUSD-PERP',
+  'ETHUSD-PERP',
+  'SOL_USD',
+  'XRP_USD',
+  'ADA_USD',
+  'MATIC_USD',
+] as const;
+export type supportedSymbol = (typeof symbolList)[number];
+
+export const orderbookDepth = 10;

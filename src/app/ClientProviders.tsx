@@ -10,6 +10,7 @@ function ClientProviders({ children }: { children: ReactNode }): JSX.Element {
 
     return () => {};
   }, []);
+
   return <>{children}</>;
 }
 

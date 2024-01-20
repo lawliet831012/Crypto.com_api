@@ -17,7 +17,7 @@ import { middleware } from './middleware';
 export const reduxStore = configureStore({
   reducer,
   // @ts-expect-error: ts0000 lib structure
-  middleware: getDefaultMiddleware => {
+  middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(middleware);
   },
 });

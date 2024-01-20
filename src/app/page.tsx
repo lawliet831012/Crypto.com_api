@@ -1,9 +1,13 @@
 /* Components */
 import { type JSX } from 'react';
-import { Counter } from '@/components/Counter/Counter';
+import { OrderBook } from '@/components/OrderBook';
 
 export default function IndexPage(): JSX.Element {
-  return <Counter />;
+  return (
+    <>
+      <OrderBook />
+    </>
+  );
 }
 
 export const metadata = {

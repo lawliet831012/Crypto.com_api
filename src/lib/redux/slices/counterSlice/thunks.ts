@@ -17,7 +17,7 @@ export const incrementAsync = createAppAsyncThunk(
 
     // The value we return becomes the `fulfilled` action payload
     return response.data;
-  }
+  },
 );
 
 // We can also write thunks by hand, which may contain both sync and async logic.

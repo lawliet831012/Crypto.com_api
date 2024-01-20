@@ -8,7 +8,7 @@ import styles from '@/styles/layout.module.css';
 import '@/styles/globals.css';
 
 export default function RootLayout(
-  props: React.PropsWithChildren
+  props: React.PropsWithChildren,
 ): JSX.Element {
   return (
     <Providers>
