@@ -4,8 +4,7 @@ import { Providers } from '@/lib/providers';
 import ClientProviders from './ClientProviders';
 
 /* Instruments */
-import styles from '@/styles/layout.module.css';
-import '@/styles/globals.css';
+import './globals.css';
 
 export default function RootLayout(
   props: React.PropsWithChildren,
@@ -14,11 +13,7 @@ export default function RootLayout(
     <Providers>
       <html lang="en">
         <body>
-          <section className={styles.container}>
-            <main className={styles.main}>
-              <ClientProviders>{props.children}</ClientProviders>
-            </main>
-          </section>
+          <ClientProviders>{props.children}</ClientProviders>
         </body>
       </html>
     </Providers>

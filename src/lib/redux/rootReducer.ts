@@ -1,9 +1,9 @@
 /* Instruments */
-import { coreSlice, counterSlice, websocketSlice, quoteSlice } from './slices';
+import { coreSlice, websocketSlice, quoteSlice, symbolSlice } from './slices';
 
 export const reducer = {
   core: coreSlice.reducer,
-  counter: counterSlice.reducer,
   websocket: websocketSlice.reducer,
   quote: quoteSlice.reducer,
+  symbol: symbolSlice.reducer,
 };
