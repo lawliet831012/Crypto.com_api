@@ -10,7 +10,7 @@ const OrderBookCard = ({
 }: {
   symbol: supportedSymbol;
 }): JSX.Element => {
-  const orderBook = useSelector((state) => state.symbol[symbol].orderbook);
+  const orderBook = useSelector((state) => state.orderbook[symbol].orderbook);
   return (
     <section className={styles.cards}>
       <h1>{symbol}</h1>

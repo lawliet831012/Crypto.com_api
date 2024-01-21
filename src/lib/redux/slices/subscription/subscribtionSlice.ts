@@ -1,25 +1,25 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { supportedSymbol } from '@/config/symbols';
 
-const initialState: QuoteState = {
+const initialState: SubscriptionState = {
   orderBookSubscribeList: [],
-  quoteSubscrbe: undefined,
+  chartSubscrbe: undefined,
 };
 
-export const quoteSlice = createSlice({
-  name: 'quote',
+export const subscriptionSlice = createSlice({
+  name: 'subscription',
   initialState,
   reducers: {
     setOrderBookSubscribeList(state, action: PayloadAction<supportedSymbol[]>) {
       state.orderBookSubscribeList = action.payload;
     },
-    setQuoteSubscribe(state, action: PayloadAction<string>) {
-      state.quoteSubscrbe = action.payload;
+    setChartSubscrbe(state, action: PayloadAction<string>) {
+      state.chartSubscrbe = action.payload;
     },
   },
 });
 
-export type QuoteState = {
+export type SubscriptionState = {
   orderBookSubscribeList: supportedSymbol[];
-  quoteSubscrbe?: string;
+  chartSubscrbe?: string;
 };

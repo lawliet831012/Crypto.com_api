@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import type { JSX } from 'react';
-import { useDispatch, quoteThunks } from '@/lib/redux';
+import { useDispatch, subscriptionThunks } from '@/lib/redux';
 import { symbolList } from '@/config/symbols';
 import OrderBookCard from './OrderBookCard';
 
@@ -11,12 +11,11 @@ const OrderBook = (): JSX.Element => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      quoteThunks.subscribeOrderBook({
+      subscriptionThunks.subscribeOrderBook({
         symbols: [...symbolList],
         inherit: false,
       }),
     );
-    dispatch(quoteThunks.subscribeQuote(symbolList[0]));
   }, []);
 
   return (

@@ -1,9 +1,16 @@
 /* Instruments */
-import { coreSlice, websocketSlice, quoteSlice, symbolSlice } from './slices';
+import {
+  coreSlice,
+  websocketSlice,
+  subscriptionSlice,
+  orderbookSlice,
+  chartSlice,
+} from './slices';
 
 export const reducer = {
   core: coreSlice.reducer,
   websocket: websocketSlice.reducer,
-  quote: quoteSlice.reducer,
-  symbol: symbolSlice.reducer,
+  subscription: subscriptionSlice.reducer,
+  orderbook: orderbookSlice.reducer,
+  chart: chartSlice.reducer,
 };

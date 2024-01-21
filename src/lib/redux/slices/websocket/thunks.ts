@@ -1,10 +1,15 @@
 /* Instruments */
-import { sendMessage, symbolSlice } from '@/lib/redux';
+import {
+  sendMessage,
+  orderbookSlice,
+  chartThunks,
+  chartSlice,
+} from '@/lib/redux';
 import type {
   ReduxThunkAction,
   messageType,
-  Ticker,
   OrderbookData,
+  RawData,
 } from '@/lib/redux';
 import type { supportedSymbol } from '@/config/symbols';
 
@@ -20,24 +25,36 @@ export const messageParser: Record<
     const { result = {} } = messge;
     const { channel, data, instrument_name: instrumentName } = result;
     if (channel in subscribeParser) {
-      dispatch(subscribeParser[channel](instrumentName, data[0]));
+      dispatch(subscribeParser[channel](instrumentName, data));
     }
   },
 };
 
 export const subscribeParser: Record<
   string,
-  (symbol: supportedSymbol, data: Ticker | OrderbookData) => ReduxThunkAction
+  (
+    symbol: supportedSymbol,
+    data: Array<OrderbookData | RawData>,
+  ) => ReduxThunkAction
 > = {
   book: (symbol, data) => (dispatch, getState) => {
     dispatch(
-      symbolSlice.actions.updateOrderBook({
+      orderbookSlice.actions.updateOrderBook({
         symbol,
-        data: data as OrderbookData,
+        data: data[0] as OrderbookData,
       }),
     );
   },
-  ticker: (symbol, data) => (dispatch, getState) => {
-    dispatch(symbolSlice.actions.updateTicker(data as Ticker));
+  candlestick: (symbol, data) => (dispatch, getState) => {
+    if (data.length === 1) {
+      dispatch(chartThunks.updateBar(symbol, data[0] as RawData));
+    } else {
+      dispatch(
+        chartSlice.actions.updateHistory({
+          symbol,
+          data: data as RawData[],
+        }),
+      );
+    }
   },
 };
