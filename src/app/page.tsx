@@ -1,6 +1,6 @@
 /* Components */
 import { type JSX } from 'react';
-import { OrderBook } from '@/components/OrderBook';
+import { OrderBook } from '@/components/Orderbook';
 import { Chart } from '@/components/Chart';
 
 import styles from './index.module.css';
