@@ -14,7 +14,7 @@ yarn build
 yarn start
 ```
 
-[https://crypto-com-practice-c2c4d5083bd5.herokuapp.com/](Demo) on heroku
+[Demo](https://crypto-com-practice-c2c4d5083bd5.herokuapp.com/) on heroku
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
