@@ -15,5 +15,5 @@ export default function IndexPage(): JSX.Element {
 }
 
 export const metadata = {
-  title: 'Redux Toolkit',
+  title: 'crypto.com api',
 };
