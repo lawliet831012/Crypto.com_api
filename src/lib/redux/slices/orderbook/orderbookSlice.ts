@@ -16,7 +16,13 @@ export const orderbookSlice = createSlice({
   name: 'orderbook',
   initialState,
   reducers: {
-    updateOrderBook: (
+    updateOrderBook: (state, action: PayloadAction<OrderbookState>) => {
+      for (const symbol in action.payload) {
+        state[symbol as supportedSymbol].orderbook =
+          action.payload[symbol as supportedSymbol].orderbook;
+      }
+    },
+    updateOrderBookBySymbol: (
       state,
       action: PayloadAction<{ symbol: supportedSymbol; data: OrderbookData }>,
     ) => {
