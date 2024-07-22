@@ -1,18 +1,22 @@
 'use client';
-import { orderbookThunks, sendMessage, subscriptionSlice } from '@/lib/redux';
+import {
+  // orderbookThunks,
+  sendMessage,
+  subscriptionSlice,
+} from '@/lib/redux';
 import type { ReduxThunkAction } from '@/lib/redux';
 import { orderbookDepth } from '@/config/symbols';
 import type { supportedPeriod, supportedSymbol } from '@/config/symbols';
 
 let orderBookTimeout: number | null = null;
 
-const updateOrderBookByInterval =
-  (): ReduxThunkAction => (dispatch, getState) => {
-    orderBookTimeout = window.setTimeout(() => {
-      dispatch(orderbookThunks.updateOrderBook());
-      dispatch(updateOrderBookByInterval());
-    }, 500);
-  };
+// const updateOrderBookByInterval =
+//   (): ReduxThunkAction => (dispatch, getState) => {
+//     orderBookTimeout = window.setTimeout(() => {
+//       dispatch(orderbookThunks.updateOrderBook());
+//       dispatch(updateOrderBookByInterval());
+//     }, 500);
+//   };
 
 export const subscribeOrderBook =
   ({ symbols, inherit }: subscribeOrderBookPayload): ReduxThunkAction =>
@@ -37,8 +41,8 @@ export const subscribeOrderBook =
       },
     });
 
-    dispatch(orderbookThunks.updateOrderBook());
-    dispatch(updateOrderBookByInterval());
+    // dispatch(orderbookThunks.updateOrderBook());
+    // dispatch(updateOrderBookByInterval());
     dispatch(subscriptionSlice.actions.setOrderBookSubscribeList(symbols));
   };
 

@@ -1,9 +1,10 @@
 /* Instruments */
 import {
   sendMessage,
-  // orderbookSlice,
+  orderbookSlice,
   chartThunks,
   chartSlice,
+  orderbookThunks,
 } from '@/lib/redux';
 import type {
   ReduxThunkAction,
@@ -12,7 +13,7 @@ import type {
   RawData,
 } from '@/lib/redux';
 import type { supportedSymbol } from '@/config/symbols';
-import { orderBooksBuffer } from './buffers';
+// import { orderBooksBuffer } from './buffers';
 
 export const messageParser: Record<
   string,
@@ -39,7 +40,13 @@ export const subscribeParser: Record<
   ) => ReduxThunkAction
 > = {
   book: (symbol, data) => (dispatch, getState) => {
-    orderBooksBuffer[symbol].orderbook = data[0] as OrderbookData;
+    // orderBooksBuffer[symbol].orderbook = data[0] as OrderbookData;
+    dispatch(
+      orderbookSlice.actions.updateOrderBookBySymbol({
+        symbol,
+        data: orderbookThunks.parseSymbolData(data[0]) as OrderbookData,
+      }),
+    );
   },
   candlestick: (symbol, data) => (dispatch, getState) => {
     if (data.length === 1) {
